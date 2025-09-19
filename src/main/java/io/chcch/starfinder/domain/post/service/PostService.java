@@ -24,7 +24,6 @@ public class PostService {
     private PostRepository postRepository;
     private PostReader postReader;
     private UserReader userReader;
-    private UserRepository userRepository;
 
 
     @Transactional
