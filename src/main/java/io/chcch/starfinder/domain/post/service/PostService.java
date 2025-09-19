@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostService {
 
     private PostRepository postRepository;
+    private PostReader postReader;
     private UserReader userReader;
     private UserRepository userRepository;
 
@@ -28,4 +29,19 @@ public class PostService {
         return postRepository.save(post);
     }
 
+    @Transactional
+    public void updatePost(Long postId, Long userId, PostRequestDto postRequestDto) {
+        Post post = postReader.findByIdAndUserId(postId, userId)
+            .orElseThrow(RuntimeException::new);
+
+        post.update(postRequestDto.getContent());
+    }
+
+    @Transactional
+    public void deletePost(Long postId, Long userId) {
+        Post post = postReader.findByIdAndUserId(postId, userId)
+            .orElseThrow(RuntimeException::new);
+
+        postRepository.delete(post);
+    }
 }
