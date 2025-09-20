@@ -35,4 +35,11 @@ public class ChatRoom extends BaseDateEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "large_user_id")
     private User largeUser;
+
+    public static ChatRoom create(User smallUser, User largeUser) {
+        return ChatRoom.builder()
+            .smallUser(smallUser)
+            .largeUser(largeUser)
+            .build();
+    }
 }

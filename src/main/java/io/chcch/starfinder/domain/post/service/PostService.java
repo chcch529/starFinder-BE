@@ -5,7 +5,6 @@ import io.chcch.starfinder.domain.post.dto.PostListResponse;
 import io.chcch.starfinder.domain.post.dto.PostRequestDto;
 import io.chcch.starfinder.domain.post.entity.Post;
 import io.chcch.starfinder.domain.post.mapper.PostMapper;
-import io.chcch.starfinder.domain.user.dao.UserRepository;
 import io.chcch.starfinder.domain.user.entity.User;
 import io.chcch.starfinder.domain.user.service.UserReader;
 import java.util.List;
