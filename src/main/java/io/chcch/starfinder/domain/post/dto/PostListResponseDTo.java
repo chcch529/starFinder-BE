@@ -2,7 +2,7 @@ package io.chcch.starfinder.domain.post.dto;
 
 import java.time.LocalDateTime;
 
-public record PostListResponse(
+public record PostListResponseDTo(
 
     Long id,
 

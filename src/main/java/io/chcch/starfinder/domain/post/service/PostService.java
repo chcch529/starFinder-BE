@@ -1,8 +1,9 @@
 package io.chcch.starfinder.domain.post.service;
 
 import io.chcch.starfinder.domain.post.dao.PostRepository;
-import io.chcch.starfinder.domain.post.dto.PostListResponse;
+import io.chcch.starfinder.domain.post.dto.PostListResponseDTo;
 import io.chcch.starfinder.domain.post.dto.PostRequestDto;
+import io.chcch.starfinder.domain.post.dto.PostResponseDto;
 import io.chcch.starfinder.domain.post.entity.Post;
 import io.chcch.starfinder.domain.post.mapper.PostMapper;
 import io.chcch.starfinder.domain.user.entity.User;
@@ -52,20 +53,28 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public Slice<PostListResponse> getPosts(Long cursor, int size, Long userId) {
+    public Slice<PostListResponseDTo> getPosts(Long cursor, int size, Long userId) {
         User user = userReader.findById(userId)
             .orElseThrow(RuntimeException::new);
 
         Sort sort = Sort.by(Direction.DESC, "id");
         Pageable pageable = PageRequest.of(0, size + 1, sort);
-        List<PostListResponse> nextPage = postReader.findNextPage(cursor, pageable);
+        List<PostListResponseDTo> nextPage = postReader.findNextPage(cursor, pageable);
 
         boolean hasNext = nextPage.size() > size;
-        List<PostListResponse> content = hasNext
+        List<PostListResponseDTo> content = hasNext
             ? nextPage.subList(0, size)
             : nextPage;
 
         return new SliceImpl<>(content, PageRequest.of(0, size, sort), hasNext);
 
+    }
+
+    @Transactional(readOnly = true)
+    public PostResponseDto getPost(Long postId, Long userId) {
+        Post post = postReader.findById(postId)
+            .orElseThrow(RuntimeException::new);
+
+        return postReader.findPostByIdWithCounts(postId, userId);
     }
 }

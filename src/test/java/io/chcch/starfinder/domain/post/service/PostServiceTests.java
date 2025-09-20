@@ -8,7 +8,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 import io.chcch.starfinder.domain.post.dao.PostRepository;
-import io.chcch.starfinder.domain.post.dto.PostListResponse;
+import io.chcch.starfinder.domain.post.dto.PostListResponseDTo;
 import io.chcch.starfinder.domain.post.dto.PostRequestDto;
 import io.chcch.starfinder.domain.post.entity.Post;
 import io.chcch.starfinder.domain.user.entity.User;
@@ -24,7 +24,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
 @ExtendWith(MockitoExtension.class)
@@ -125,17 +124,17 @@ class PostServiceTests {
         // given
         given(userReader.findById(1L)).willReturn(Optional.of(user));
 
-        PostListResponse post1 = new PostListResponse(1L, "post1", "nickname1",
+        PostListResponseDTo post1 = new PostListResponseDTo(1L, "post1", "nickname1",
             "profile1", LocalDateTime.now(), 0L, 0L, 1L);
-        PostListResponse post2 = new PostListResponse(2L, "post2", "nickname2",
+        PostListResponseDTo post2 = new PostListResponseDTo(2L, "post2", "nickname2",
             "profile2", LocalDateTime.now(), 0L, 0L, 1L);
 
-        List<PostListResponse> postList = List.of(post1, post2);
+        List<PostListResponseDTo> postList = List.of(post1, post2);
 
         given(postReader.findNextPage(eq(null), any(PageRequest.class))).willReturn(postList);
 
         // when
-        Slice<PostListResponse> slice = postService.getPosts(null, 1, 1L);
+        Slice<PostListResponseDTo> slice = postService.getPosts(null, 1, 1L);
 
         // then
         assertThat(slice.getContent()).hasSize(1);

@@ -59,8 +59,7 @@ public class ChatRoomService {
         userReader.findById(userId)
             .orElseThrow(RuntimeException::new);
 
-        return chatRoomReader.findChatRoomsWithLastMessage(
-            userId);
+        return chatRoomReader.findChatRoomsWithLastMessage(userId);
     }
 
 }
