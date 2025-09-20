@@ -1,11 +1,12 @@
 package io.chcch.starfinder.domain.chat.service;
 
 import io.chcch.starfinder.domain.chat.dao.ChatRoomRepository;
+import io.chcch.starfinder.domain.chat.dto.ChatRoomListResponse;
 import io.chcch.starfinder.domain.chat.entity.ChatRoom;
 import io.chcch.starfinder.domain.chat.mapper.ChatRoomMapper;
-import io.chcch.starfinder.domain.post.service.PostService;
 import io.chcch.starfinder.domain.user.entity.User;
 import io.chcch.starfinder.domain.user.service.UserReader;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,6 +52,15 @@ public class ChatRoomService {
 
         return joinChatRoom(smallUserId, largeUserId)
             .orElse(createChatRoom(userId, targetId));
+    }
+
+    @Transactional(readOnly = true)
+    public List<ChatRoomListResponse> getChatRooms(Long userId) {
+        userReader.findById(userId)
+            .orElseThrow(RuntimeException::new);
+
+        return chatRoomReader.findChatRoomsWithLastMessage(
+            userId);
     }
 
 }
