@@ -8,5 +8,4 @@ public class ChatRoomMapper {
     public static ChatRoom toEntity(User smallUser, User largeUser) {
         return ChatRoom.create(smallUser, largeUser);
     }
-
 }
